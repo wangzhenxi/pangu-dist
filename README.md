@@ -1,2 +1,1 @@
-# pangu-dist
-pangu lowcode构建产物
+Hello josh!
