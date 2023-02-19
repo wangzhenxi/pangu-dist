@@ -50,7 +50,7 @@ jobs:
           echo "Diff files: $DIFF_FILES"
 
           # 提取目录名
-          DIRS=$(echo $DIFF_FILES | grep -oE "packages/[^/]+(/|$)" | sed 's:/[^/]*$::' | sort -u
+          DIRS=$(echo $DIFF_FILES | grep -oE "packages/[^/]+(/|$)" | sed 's:/[^/]*$::' | sort -u)
           echo "Build directories: $DIRS"
 
           # 在每个目录下执行npm run build命令
