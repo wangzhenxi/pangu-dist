@@ -18,7 +18,7 @@ jobs:
         id: get-last-merge-sha
         run: |
           LAST_MERGE=$(git log --merges -n 1 --format="%H")
-          echo $LAST_MERGE
+          echo "LAST_MERGE: $LAST_MERGE"
           echo "last_merge=$LAST_MERGE" >> $GITHUB_OUTPUT
       - name: Check if packages directory is modified
         id: check-packages
