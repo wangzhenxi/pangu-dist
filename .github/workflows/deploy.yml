@@ -1,0 +1,39 @@
+name: Build and Deploy
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: npm install
+      - name: Build
+        run: |
+          # 获取提交的差异代码
+          DIFF_FILES=$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})
+          echo "Diff files: $DIFF_FILES"
+
+          # 提取目录名
+          DIRS=$(echo $DIFF_FILES | grep -oE "source/[^/]+(/|$)" | sed 's:/[^/]*$::' | sort -u
+          echo "Build directories: $DIRS"
+
+          # 在每个目录下执行npm run build命令
+          for DIR in $DIRS; do
+            cd $DIR
+            echo "Building $DIR..."
+            npm run build
+            cd -
+          done
+
+          # 提交构建产物到dist分支
+          git config --global user.email "im.wangzhenxi@gmail.com"
+          git config --global user.name "wangzhenxi"
+          git fetch origin dist
+          git checkout -b dist origin/dist
+          git merge --no-commit --no-ff main
+          git add -A .
+          git commit -m "Build and Deploy"
+          git push -u origin dist
