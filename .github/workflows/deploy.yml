@@ -17,8 +17,9 @@ jobs:
       - name: Get last merge sha
         id: get-last-merge-sha
         run: |
-          last_merge=$(git log --merges --first-parent -n 1 --format="%H")
-          echo "::set-output name=last_merge::$last_merge"
+          LAST_MERGE=$(git log --merges --first-parent -n 1 --format="%H")
+          echo LAST_MERGE
+          echo "::set-output name=last_merge::$LAST_MERGE"
       - name: Check if packages directory is modified
         id: check-packages
         run: |
