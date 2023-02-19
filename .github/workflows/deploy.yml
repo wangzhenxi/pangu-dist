@@ -18,7 +18,7 @@ jobs:
         id: check-packages
         run: |
           # 获取提交的差异代码
-          DIFF_FILES=$(git diff-tree --no-commit-id --name-only -r ${{ github.event.before }} ${{ github.sha }})
+          DIFF_FILES=$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }} ${{ github.event.before }})
           echo "github.event.before: ${{ github.event.before }}"
           echo "github.sha: ${{ github.sha }}"
           echo "Diff files: $DIFF_FILES"
@@ -38,7 +38,7 @@ jobs:
         if: steps.check-packages.outputs.should_build == 'true'
         run: |
           # 获取提交的差异代码
-          DIFF_FILES=$(git diff-tree --no-commit-id --name-only -r ${{ github.event.before }} ${{ github.sha }})
+          DIFF_FILES=$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }} ${{ github.event.before }})
           echo "Diff files: $DIFF_FILES"
 
           # 提取目录名
