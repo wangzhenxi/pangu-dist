@@ -7,6 +7,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: common check
+        id: common-check
+        run: |
+          git --version
+          echo $PATH
+          node -v
       - uses: actions/checkout@v2
       - name: Check if packages directory is modified
         id: check-packages
