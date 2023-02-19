@@ -1,5 +1,5 @@
 {
-  "name": "icejs-demo-app",
+  "name": "icejs-demo-app2",
   "version": "0.1.5",
   "description": "轻量级模板，使用 JavaScript，仅包含基础的 Layout。",
   "dependencies": {
