@@ -43,6 +43,13 @@ jobs:
             echo "No changes found in packages directory"
             echo "::set-output name=should_build::false"
           fi
+      - name: Cache node_modules
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
       - name: Install dependencies
         if: steps.check-packages.outputs.should_build == 'true'
         run: npm install
