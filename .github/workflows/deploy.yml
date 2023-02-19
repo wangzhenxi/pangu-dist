@@ -7,24 +7,16 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: common check
-        id: common-check
-        run: |
-          git --version
-          echo $PATH
-          node -v
       - uses: actions/checkout@v2
       - name: Check if packages directory is modified
         id: check-packages
         run: |
           # 获取提交的差异代码
-          echo "github.event.before: ${{ github.event.before }}"
-          echo "github.sha: ${{ github.sha }}"
-          DIFF_FILES=$(git diff-tree --no-commit-id --name-only -r ${{ github.event.before }} ${{ github.sha }})
+          DIFF_FILES=$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})
           echo "Diff files: $DIFF_FILES"
 
           # 检查是否存在packages目录文件的变更
-          if echo $DIFF_FILES | grep -qE "packages/*"; then
+          if echo $DIFF_FILES | grep -qE "packages/"; then
             echo "Changes found in packages directory"
             echo "::set-output name=should_build::true"
           else
@@ -38,7 +30,7 @@ jobs:
         if: steps.check-packages.outputs.should_build == 'true'
         run: |
           # 获取提交的差异代码
-          DIFF_FILES=$(git diff-tree --no-commit-id --name-only -r ${{ github.event.before }} ${{ github.sha }})
+          DIFF_FILES=$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})
           echo "Diff files: $DIFF_FILES"
 
           # 提取目录名
