@@ -13,6 +13,7 @@ jobs:
         run: |
           # 获取提交的差异代码
           DIFF_FILES=$(git diff --name-only ${{ ${{ github.event.before }} }} ${{ github.sha }})
+          echo "github.event.before: ${{ github.event.before }}"
           echo "github.sha: ${{ github.sha }}"
           echo "Diff files: $DIFF_FILES"
 
