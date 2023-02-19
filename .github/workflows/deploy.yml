@@ -17,7 +17,7 @@ jobs:
           echo "Diff files: $DIFF_FILES"
 
           # 检查是否存在packages目录文件的变更
-          if echo $DIFF_FILES | grep -qE "packages/"; then
+          if echo $DIFF_FILES | grep -qE "packages/*"; then
             echo "Changes found in packages directory"
             echo "::set-output name=should_build::true"
           else
