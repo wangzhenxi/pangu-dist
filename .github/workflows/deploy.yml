@@ -18,15 +18,14 @@ jobs:
         id: get-last-merge-sha
         run: |
           LAST_MERGE=$(git log --merges --first-parent -n 1 --format="%H")
-          echo LAST_MERGE
-          echo "::set-output name=last_merge::$LAST_MERGE"
+          echo $LAST_MERGE
+          echo "last_merge=$LAST_MERGE" >> $GITHUB_OUTPUT
       - name: Check if packages directory is modified
         id: check-packages
         run: |
-          # 获取提交的差异代码
-          git fetch
           echo "steps.get-last-merge-sha.outputs.last_merge: ${{ steps.get-last-merge-sha.outputs.last_merge }}"
           echo "github.sha: ${{ github.sha }}"
+          # 获取提交的差异代码
           DIFF_FILES=$(git diff --name-only ${{ steps.get-last-merge-sha.outputs.last_merge }} HEAD)
           echo "Diff files: $DIFF_FILES"
 
