@@ -8,16 +8,33 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Check if packages directory is modified
+        id: check-packages
+        run: |
+          # 获取提交的差异代码
+          DIFF_FILES=$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})
+          echo "Diff files: $DIFF_FILES"
+
+          # 检查是否存在packages目录文件的变更
+          if echo $DIFF_FILES | grep -qE "packages/"; then
+            echo "Changes found in packages directory"
+            echo "::set-output name=should_build::true"
+          else
+            echo "No changes found in packages directory"
+            echo "::set-output name=should_build::false"
+          fi
       - name: Install dependencies
+        if: steps.check-packages.outputs.should_build == 'true'
         run: npm install
       - name: Build
+        if: steps.check-packages.outputs.should_build == 'true'
         run: |
           # 获取提交的差异代码
           DIFF_FILES=$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})
           echo "Diff files: $DIFF_FILES"
 
           # 提取目录名
-          DIRS=$(echo $DIFF_FILES | grep -oE "source/[^/]+(/|$)" | sed 's:/[^/]*$::' | sort -u
+          DIRS=$(echo $DIFF_FILES | grep -oE "packages/[^/]+(/|$)" | sed 's:/[^/]*$::' | sort -u
           echo "Build directories: $DIRS"
 
           # 在每个目录下执行npm run build命令
