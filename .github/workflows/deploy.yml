@@ -12,9 +12,9 @@ jobs:
         id: check-packages
         run: |
           # 获取提交的差异代码
-          DIFF_FILES=$(git diff --name-only ${{ ${{ github.event.before }} }} ${{ github.sha }})
           echo "github.event.before: ${{ github.event.before }}"
           echo "github.sha: ${{ github.sha }}"
+          DIFF_FILES=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }})
           echo "Diff files: $DIFF_FILES"
 
           # 检查是否存在packages目录文件的变更
