@@ -71,14 +71,14 @@ jobs:
             npm run build
             cd -
           done
-        - name: Move build files
-          if: steps.check-packages.outputs.should_build == 'true'
-          run: |
-            for dir in ${{ github.workspace }}/packages/*/build; do
-              project_name=$(echo $dir | sed -E 's/.*\/packages\/(.*)\/build/\1/g')
-              mkdir -p ${{ github.workspace }}/build/$project_name
-              mv $dir/* ${{ github.workspace }}/build/$project_name/
-            done
+      - name: Move build files
+        if: steps.check-packages.outputs.should_build == 'true'
+        run: |
+          for dir in ${{ github.workspace }}/packages/*/build; do
+            project_name=$(echo $dir | sed -E 's/.*\/packages\/(.*)\/build/\1/g')
+            mkdir -p ${{ github.workspace }}/build/$project_name
+            mv $dir/* ${{ github.workspace }}/build/$project_name/
+          done
       - name: Deploy
         if: steps.check-packages.outputs.should_build == 'true'
         run: |
