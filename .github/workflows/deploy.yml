@@ -90,3 +90,5 @@ jobs:
           git add -A ${{ github.workspace }}/build
           git commit -m "auto deploy"
           git push -u origin dist
+        env:
+          GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
