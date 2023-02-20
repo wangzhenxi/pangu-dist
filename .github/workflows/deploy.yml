@@ -53,7 +53,7 @@ jobs:
       - name: Install dependencies
         if: steps.check-packages.outputs.should_build == 'true'
         run: npm install
-      - name: Build and Deploy
+      - name: Build
         if: steps.check-packages.outputs.should_build == 'true'
         run: |
           # 获取提交的差异代码
@@ -71,12 +71,22 @@ jobs:
             npm run build
             cd -
           done
-
+        - name: Move build files
+          if: steps.check-packages.outputs.should_build == 'true'
+          run: |
+            for dir in ${{ github.workspace }}/packages/*/build; do
+              project_name=$(echo $dir | sed -E 's/.*\/packages\/(.*)\/build/\1/g')
+              mkdir -p ${{ github.workspace }}/build/$project_name
+              mv $dir/* ${{ github.workspace }}/build/$project_name/
+            done
+      - name: Deploy
+        if: steps.check-packages.outputs.should_build == 'true'
+        run: |
           # 提交构建产物到dist分支
           git config --global user.email "im.wangzhenxi@gmail.com"
           git config --global user.name "wangzhenxi"
           git fetch origin dist
           git checkout -b dist origin/dist
-          git add -A .
-          git commit -m "Build and Deploy"
+          git add -A ${{ github.workspace }}/build
+          git commit -m "auto deploy"
           git push -u origin dist
