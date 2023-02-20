@@ -79,7 +79,7 @@ jobs:
             mkdir -p ${{ github.workspace }}/build/$project_name
             mv $dir/* ${{ github.workspace }}/build/$project_name/
           done
-      - name: Deploy
+      - name: Commit files
         if: steps.check-packages.outputs.should_build == 'true'
         run: |
           # 提交构建产物到dist分支
@@ -89,6 +89,8 @@ jobs:
           git checkout -b dist origin/dist
           git add -A ${{ github.workspace }}/build
           git commit -m "auto deploy"
-          git push -u origin dist
-        env:
-          GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
+      - name: Push to dist branch
+        uses: ad-m/github-push-action@v0.6.0
+        with:
+          branch: dist
+          github_token: ${{ secrets.GITLAB_TOKEN }}
