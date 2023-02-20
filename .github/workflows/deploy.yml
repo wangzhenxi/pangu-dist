@@ -93,4 +93,3 @@ jobs:
         uses: ad-m/github-push-action@v0.6.0
         with:
           branch: dist
-          github_token: ${{ secrets.GITLAB_TOKEN }}
