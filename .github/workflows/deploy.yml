@@ -28,7 +28,7 @@ jobs:
           echo "last_merge=$LAST_MERGE" >> $GITHUB_OUTPUT
           # LAST_DEPLOY_SUCCESS_TAG=$(git describe --tags --match "deploy-success-*" $(git rev-list --tags --skip=1 --max-count=1))
           # LAST_DEPLOY_SUCCESS_SHA=$(echo $LAST_DEPLOY_SUCCESS_TAG | sed 's/deploy-success-//')
-          # echo "last_sha=$LAST_MERGE" >> $GITHUB_OUTPUT
+          # echo "last_deploy_success_sha=$LAST_DEPLOY_SUCCESS_SHA" >> $GITHUB_OUTPUT
       - name: Check if packages directory is modified
         id: check-packages
         run: |
@@ -89,7 +89,9 @@ jobs:
           git config --global user.email "im.wangzhenxi@gmail.com"
           git config --global user.name "wangzhenxi"
           git fetch origin dist
+          git stash
           git checkout -b dist origin/dist
+          git stash pop --strategy=theirs
           git add -A ${{ github.workspace }}/docs
           git commit -m "auto deploy"
       - name: Push to dist branch
