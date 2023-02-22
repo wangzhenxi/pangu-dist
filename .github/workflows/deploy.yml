@@ -79,8 +79,8 @@ jobs:
         run: |
           for dir in ${{ github.workspace }}/packages/*/build; do
             project_name=$(echo $dir | sed -E 's/.*\/packages\/(.*)\/build/\1/g')
-            mkdir -p ${{ github.workspace }}/docs/$project_name
-            mv $dir/* ${{ github.workspace }}/docs/$project_name/
+            mkdir -p ${{ github.workspace }}/docs_temp/$project_name
+            mv $dir/* ${{ github.workspace }}/docs_temp/$project_name/
           done
       - name: Commit files
         if: steps.check-packages.outputs.should_build == 'true'
@@ -89,9 +89,8 @@ jobs:
           git config --global user.email "im.wangzhenxi@gmail.com"
           git config --global user.name "wangzhenxi"
           git fetch origin dist
-          git stash
           git checkout -b dist origin/dist
-          git stash pop --strategy=theirs
+          mv ${{ github.workspace }}/docs_temp ${{ github.workspace }}/docs
           git add -A ${{ github.workspace }}/docs
           git commit -m "auto deploy"
       - name: Push to dist branch
