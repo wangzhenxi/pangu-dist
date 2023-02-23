@@ -1,0 +1,16 @@
+name: Cleanup old branches
+on:
+  schedule:
+    # 每天 UTC 时间 0:00 执行一次
+    - cron: '30 8 * * *'
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Delete old branches
+        run: |
+          git checkout main
+          git branch --sort=-committerdate | grep 'temp-' | tail -n +6 | xargs git branch -D
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
