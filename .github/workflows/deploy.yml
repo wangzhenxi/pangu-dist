@@ -23,7 +23,7 @@ jobs:
       - name: Get last merge sha
         id: get-last-merge-sha
         run: |
-          LAST_DEPLOY_SUCCESS_TAG=$(git describe --tags --match "deploy-success-*" $(git rev-list --tags --skip=1 --max-count=1))
+          LAST_DEPLOY_SUCCESS_TAG=$(git describe --tags --match "deploy-success-*" $(git rev-list --tags --skip=1 --max-count=1 --sort=-committerdate))
           LAST_DEPLOY_SUCCESS_SHA=$(echo $LAST_DEPLOY_SUCCESS_TAG | sed 's/deploy-success-//')
           if [ -z "$LAST_DEPLOY_SUCCESS_SHA" ]; then
             LAST_DEPLOY_SUCCESS_SHA=$(git rev-list --max-parents=0 HEAD)
