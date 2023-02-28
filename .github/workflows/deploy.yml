@@ -23,19 +23,19 @@ jobs:
       - name: Get last merge sha
         id: get-last-merge-sha
         run: |
-          LAST_MERGE=$(git log --merges -n 2 --format="%H" | tail -1)
-          echo "LAST_MERGE: $LAST_MERGE"
-          echo "last_merge=$LAST_MERGE" >> $GITHUB_OUTPUT
-          # LAST_DEPLOY_SUCCESS_TAG=$(git describe --tags --match "deploy-success-*" $(git rev-list --tags --skip=1 --max-count=1))
-          # LAST_DEPLOY_SUCCESS_SHA=$(echo $LAST_DEPLOY_SUCCESS_TAG | sed 's/deploy-success-//')
-          # echo "last_deploy_success_sha=$LAST_DEPLOY_SUCCESS_SHA" >> $GITHUB_OUTPUT
+          LAST_DEPLOY_SUCCESS_TAG=$(git describe --tags --match "deploy-success-*" $(git rev-list --tags --skip=1 --max-count=1))
+          LAST_DEPLOY_SUCCESS_SHA=$(echo $LAST_DEPLOY_SUCCESS_TAG | sed 's/deploy-success-//')
+          if [ -z "$LAST_DEPLOY_SUCCESS_SHA" ]; then
+            LAST_DEPLOY_SUCCESS_SHA=$(git rev-list --max-parents=0 HEAD)
+          fi
+          echo "last_deploy_success_sha=$LAST_DEPLOY_SUCCESS_SHA" >> $GITHUB_OUTPUT
       - name: Check if packages directory is modified
         id: check-packages
         run: |
-          echo "steps.get-last-merge-sha.outputs.last_merge: ${{ steps.get-last-merge-sha.outputs.last_merge }}"
+          echo "steps.get-last-merge-sha.outputs.last_deploy_success_sha: ${{ steps.get-last-merge-sha.outputs.last_deploy_success_sha }}"
           echo "github.sha: ${{ github.sha }}"
           # 获取提交的差异代码
-          DIFF_FILES=$(git diff --name-only ${{ steps.get-last-merge-sha.outputs.last_merge }} ${{ github.sha }})
+          DIFF_FILES=$(git diff --name-only ${{ steps.get-last-merge-sha.outputs.last_deploy_success_sha }} ${{ github.sha }})
           echo "Diff files: $DIFF_FILES"
 
           # 检查是否存在packages目录文件的变更
@@ -60,7 +60,7 @@ jobs:
         if: steps.check-packages.outputs.should_build == 'true'
         run: |
           # 获取提交的差异代码
-          DIFF_FILES=$(git diff --name-only ${{ steps.get-last-merge-sha.outputs.last_merge }} ${{ github.sha }})
+          DIFF_FILES=$(git diff --name-only ${{ steps.get-last-merge-sha.outputs.last_deploy_success_sha }} ${{ github.sha }})
           echo "Diff files: $DIFF_FILES"
 
           # 提取目录名
