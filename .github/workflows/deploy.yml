@@ -23,7 +23,7 @@ jobs:
       - name: Get last merge sha
         id: get-last-merge-sha
         run: |
-          LAST_DEPLOY_SUCCESS_TAG=$(git describe --tags --match "deploy-success-*" $(git rev-list --tags --skip=1 --max-count=1 --reverse))
+          LAST_DEPLOY_SUCCESS_TAG=$(git describe --tags --match "deploy-success-*" $(git rev-list --tags --max-count=1 --reverse))
           LAST_DEPLOY_SUCCESS_SHA=$(echo $LAST_DEPLOY_SUCCESS_TAG | sed 's/deploy-success-//')
           if [ -z "$LAST_DEPLOY_SUCCESS_SHA" ]; then
             LAST_DEPLOY_SUCCESS_SHA=$(git rev-list --max-parents=0 HEAD)
@@ -91,7 +91,7 @@ jobs:
           git fetch origin dist
           git checkout -b dist origin/dist
           mkdir -p ${{ github.workspace }}/docs
-          mv ${{ github.workspace }}/docs_temp/* ${{ github.workspace }}/docs
+          cp -r ${{ github.workspace }}/docs_temp/* ${{ github.workspace }}/docs
           git add -A ${{ github.workspace }}/docs
           git commit -m "auto deploy"
       - name: Push to dist branch
