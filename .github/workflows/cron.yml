@@ -2,7 +2,7 @@ name: Cleanup old branches
 on:
   schedule:
     # 每天 UTC 时间 0:30 执行一次
-    - cron: '* * * * *'
+    - cron: '30 0 * * *'
 jobs:
   cleanup:
     runs-on: ubuntu-latest
