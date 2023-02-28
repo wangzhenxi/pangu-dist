@@ -2,7 +2,7 @@ name: Cleanup old branches
 on:
   schedule:
     # 每天 UTC 时间 0:30 执行一次
-    - cron: '30 0 * * *'
+    - cron: '* * * * *'
 jobs:
   cleanup:
     runs-on: ubuntu-latest
@@ -11,6 +11,12 @@ jobs:
       - name: Delete old branches
         run: |
           git checkout main
-          git branch --sort=-committerdate -r | grep 'temp-' | tail -n +6 | sed 's/origin\///g' | xargs git push origin --delete
+          stale_branches=$(git branch --sort=-committerdate -r | grep 'temp-' | sed 's/origin\///g' | tail -n +5)
+          if [ -n "$stale_branches" ]; then
+            echo "The following branches will be deleted: $stale_branches"
+            echo "$stale_branches" | xargs git push origin --delete
+          else
+            echo "No stale branches found"
+          fi
         env:
           GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
