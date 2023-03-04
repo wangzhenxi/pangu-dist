@@ -55,8 +55,7 @@ export default function BasicLayout({ children }) {
       >
         <Shell.Branding>
           <Logo
-            image="https://img.alicdn.com/tfs/TB1.ZBecq67gK0jSZFHXXa9jVXa-904-826.png"
-            text="Logo"
+            text="低代码引擎"
           />
         </Shell.Branding>
         <Shell.Navigation
