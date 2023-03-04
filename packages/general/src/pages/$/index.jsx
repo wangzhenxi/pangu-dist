@@ -15,8 +15,6 @@ import {
 
 import { NextText } from '@alilc/lowcode-materials/lib/index.js';
 
-import { Button } from '@alifd/next';
-
 import { createFetchHandler as __$$createFetchRequestHandler } from '@alilc/lowcode-datasource-fetch-handler';
 
 import { create as __$$createDataSourceEngine } from '@alilc/lowcode-datasource-engine/runtime';
@@ -25,9 +23,11 @@ import utils, { RefsManager } from '../../utils';
 
 import * as __$$i18n from '../../i18n';
 
-import __$$constants from '../../constants';
-
 import './index.css';
+
+import '@alifd/pro-layout/lib/index.scss';
+
+import '@alilc/lowcode-materials/lib/style';
 
 class $$Page extends React.Component {
   _context = this;
@@ -45,10 +45,6 @@ class $$Page extends React.Component {
   reloadDataSource = async () => {
     await this._dataSourceEngine.reloadDataSource();
   };
-
-  get constants() {
-    return __$$constants || {};
-  }
 
   constructor(props, context) {
     super(props);
@@ -163,7 +159,10 @@ class $$Page extends React.Component {
           placeholderStyle={{ gridRowEnd: 'span 1', gridColumnEnd: 'span 12' }}
           headerProps={{ background: 'surface' }}
           header={
-            <NextPageHeader>
+            <NextPageHeader
+              style={{ background: '#ffffff', padding: '' }}
+              ref={this._refsManager.linkRef('nextpageheader-9a055598')}
+            >
               <NextRowColContainer rowGap={20} colGap={20}>
                 <NextRow>
                   <NextCol colSpan={1}>
@@ -173,16 +172,22 @@ class $$Page extends React.Component {
                       verAlign="middle"
                       textSpacing={true}
                       align="left"
+                      prefix=""
+                      full={false}
+                      flex={false}
+                      ref={this._refsManager.linkRef('nextp-c48185b9')}
                     >
                       <NextText
-                        type="h5"
+                        type="h1"
                         mark={false}
                         code={false}
                         delete={false}
                         underline={false}
                         strong={false}
+                        prefix=""
+                        classname=""
                       >
-                        {__$$eval(() => this.state.info?.info)}
+                        标题
                       </NextText>
                     </NextP>
                   </NextCol>
@@ -196,6 +201,7 @@ class $$Page extends React.Component {
           navProps={{ width: 200 }}
           asideProps={{ width: 200 }}
           background="lining"
+          ref={this._refsManager.linkRef('nextpage-3225e27a')}
         >
           <NextBlock
             placeholderStyle={{ height: '100%' }}
@@ -211,6 +217,7 @@ class $$Page extends React.Component {
             rowSpan={1}
             mode="transparent"
             childTotalColumns={12}
+            ref={this._refsManager.linkRef('nextblock-7b032620')}
           >
             <NextBlockCell
               colSpan={12}
@@ -227,8 +234,13 @@ class $$Page extends React.Component {
               isFillContainer={true}
               operationConfig={{ align: 'center' }}
               operations={[]}
+              ref={this._refsManager.linkRef('nextblockcell-c210269c')}
             >
-              <NextRowColContainer rowGap={20} colGap={20}>
+              <NextRowColContainer
+                rowGap={20}
+                colGap={20}
+                ref={this._refsManager.linkRef('nextrowcolcontainer-626dc975')}
+              >
                 <NextRow>
                   <NextCol colSpan={1} justifyContent="flex-start">
                     <NextP
@@ -265,117 +277,6 @@ class $$Page extends React.Component {
                       >
                         {__$$eval(() => this.getHelloWorldText2())}
                       </NextText>
-                    </NextP>
-                  </NextCol>
-                </NextRow>
-              </NextRowColContainer>
-            </NextBlockCell>
-            <NextBlockCell
-              colSpan={12}
-              rowSpan={1}
-              mode="procard"
-              isAutoContainer={true}
-              title="appHelper示例"
-              hasDivider={true}
-              loading={false}
-              bodyPadding=""
-              hasCollapse={false}
-              text={true}
-              visibleButtonCount={3}
-              isFillContainer={true}
-              operationConfig={{ align: 'center' }}
-              operations={[]}
-            >
-              <NextRowColContainer rowGap={20} colGap={20}>
-                <NextRow>
-                  <NextCol colSpan={1}>
-                    <NextP
-                      wrap={false}
-                      type="body2"
-                      verAlign="middle"
-                      textSpacing={true}
-                      align="left"
-                      prefix=""
-                      full={false}
-                      flex={false}
-                    >
-                      <Button
-                        prefix="next-"
-                        type="primary"
-                        size="medium"
-                        htmlType="button"
-                        component="button"
-                        iconSize="xxs"
-                        loading={false}
-                        text={false}
-                        warning={false}
-                        disabled={false}
-                        ref={this._refsManager.linkRef('button-4951c2d3')}
-                        __events={{
-                          eventDataList: [
-                            {
-                              type: 'componentEvent',
-                              name: 'onClick',
-                              relatedEventName: 'onTestConstantsButtonClicked',
-                            },
-                          ],
-                          eventList: [
-                            {
-                              name: 'onClick',
-                              description:
-                                '点击按钮的回调\n@param {Object} e Event Object',
-                              disabled: true,
-                            },
-                            { name: 'onMouseUp', disabled: false },
-                          ],
-                        }}
-                        onClick={function () {
-                          this.onTestConstantsButtonClicked.apply(
-                            this,
-                            Array.prototype.slice.call(arguments).concat([])
-                          );
-                        }.bind(this)}
-                      >
-                        constants
-                      </Button>
-                      <Button
-                        prefix="next-"
-                        type="primary"
-                        size="medium"
-                        htmlType="button"
-                        component="button"
-                        iconSize="xxs"
-                        loading={false}
-                        text={false}
-                        warning={false}
-                        disabled={false}
-                        __events={{
-                          eventDataList: [
-                            {
-                              type: 'componentEvent',
-                              name: 'onClick',
-                              relatedEventName: 'onTestUtilsButtonClicked',
-                            },
-                          ],
-                          eventList: [
-                            {
-                              name: 'onClick',
-                              description:
-                                '点击按钮的回调\n@param {Object} e Event Object',
-                              disabled: true,
-                            },
-                            { name: 'onMouseUp', disabled: false },
-                          ],
-                        }}
-                        onClick={function () {
-                          this.onTestUtilsButtonClicked.apply(
-                            this,
-                            Array.prototype.slice.call(arguments).concat([])
-                          );
-                        }.bind(this)}
-                      >
-                        utils
-                      </Button>
                     </NextP>
                   </NextCol>
                 </NextRow>

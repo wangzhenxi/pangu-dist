@@ -15,8 +15,7 @@
     "@alilc/lowcode-datasource-fetch-handler": "^1.0.0",
     "undefined": "*",
     "@alifd/pro-layout": "1.0.1-beta.6",
-    "@alilc/lowcode-materials": "1.0.5",
-    "@alifd/next": "1.25.23"
+    "@alilc/lowcode-materials": "1.0.5"
   },
   "devDependencies": {
     "@ice/spec": "^1.0.0",
@@ -33,16 +32,9 @@
     "eslint": "eslint --cache --ext .js,.jsx ./",
     "stylelint": "stylelint ./**/*.scss"
   },
-  "ideMode": {
-    "name": "ice-react"
-  },
-  "iceworks": {
-    "type": "react",
-    "adapter": "adapter-react-v3"
-  },
-  "engines": {
-    "node": ">=8.0.0"
-  },
+  "ideMode": { "name": "ice-react" },
+  "iceworks": { "type": "react", "adapter": "adapter-react-v3" },
+  "engines": { "node": ">=8.0.0" },
   "repository": {
     "type": "git",
     "url": "http://gitlab.xxx.com/msd/leak-scan/tree/master"
