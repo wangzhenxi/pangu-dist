@@ -69,9 +69,13 @@ jobs:
 
           # 在每个目录下执行npm run build命令
           for DIR in $DIRS; do
-            cd $DIR
-            echo "Building $DIR..."
-            npm run build
+            if [ -d "$DIR" ]; then
+              cd "$DIR"
+              echo "Building $DIR..."
+              npm run build
+            else
+              echo "$DIR does not exist."
+            fi
             cd -
           done
       - name: Move build files
