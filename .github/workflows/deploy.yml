@@ -53,6 +53,40 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
+      - name: Generate directory
+        if: steps.check-packages.outputs.should_build == 'true'
+        run: |
+          # 遍历当前目录下的文件夹，并将它们存储在数组中
+          dirs=(${{ github.workspace }}/packages/*/)
+          # 只保留目录名
+          dirs=("${dirs[@]%/}")
+          dirs=("${dirs[@]#/}")
+          dirs=("${dirs[@]##*/}")
+
+          # 输出HTML文件头部
+          cat << _EOF_ > ${{ github.workspace }}/packages/index.html
+          <!DOCTYPE html>
+          <html>
+          <head>
+          <title>目录列表</title>
+          </head>
+          <body>
+          <h1>目录列表</h1>
+          <ul>
+          _EOF_
+
+          # 遍历所有文件夹名称，并将它们作为链接添加到HTML列表中
+          for dir in "${dirs[@]}"
+          do
+            echo "<li><a href=\"./$dir\">$dir</a></li>" >> ${{ github.workspace }}/packages/index.html
+          done
+
+          # 输出HTML文件尾部
+          cat << _EOF_ >> ${{ github.workspace }}/packages/index.html
+          </ul>
+          </body>
+          </html>
+          _EOF_
       - name: Install dependencies
         if: steps.check-packages.outputs.should_build == 'true'
         run: npm install
@@ -86,6 +120,7 @@ jobs:
             mkdir -p ${{ github.workspace }}/docs_temp/$project_name
             mv $dir/* ${{ github.workspace }}/docs_temp/$project_name/
           done
+          mv ${{ github.workspace }}/packages/index.html ${{ github.workspace }}/docs_temp/
       - name: Commit files
         if: steps.check-packages.outputs.should_build == 'true'
         run: |
