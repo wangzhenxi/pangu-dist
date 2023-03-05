@@ -4,7 +4,7 @@ const asideMenuConfig = [
   {
     name: '首页',
     path: '/',
-    icon: '',
+    icon: 'smile',
   },
 ];
 export { headerMenuConfig, asideMenuConfig };
