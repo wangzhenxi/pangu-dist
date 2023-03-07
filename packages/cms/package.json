@@ -12,8 +12,11 @@
     "@ice/store": "^1.4.3",
     "@loadable/component": "^5.15.2",
     "@alilc/lowcode-datasource-engine": "^1.0.0",
+    "@alilc/lowcode-datasource-fetch-handler": "^1.0.0",
     "undefined": "*",
-    "@alifd/pro-layout": "1.0.1-beta.6",
+    "@alifd/fusion-ui": "1.0.8",
+    "@alifd/pro-layout": "1.0.1",
+    "@alifd/next": "1.25.23",
     "@alilc/lowcode-materials": "1.0.5"
   },
   "devDependencies": {
