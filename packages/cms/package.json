@@ -16,8 +16,8 @@
     "undefined": "*",
     "@alifd/fusion-ui": "1.0.8",
     "@alifd/pro-layout": "1.0.1",
-    "@alifd/next": "1.25.23",
-    "@alilc/lowcode-materials": "1.0.5"
+    "@alifd/next": "1.25.51",
+    "@alilc/lowcode-materials": "1.1.0"
   },
   "devDependencies": {
     "@ice/spec": "^1.0.0",
