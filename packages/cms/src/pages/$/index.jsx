@@ -33,6 +33,10 @@ import utils, { RefsManager } from '../../utils';
 
 import * as __$$i18n from '../../i18n';
 
+import moment from 'moment';
+
+import { Message } from '@alifd/next';
+
 import './index.css';
 
 import '@alifd/pro-layout/lib/index.scss';
@@ -174,9 +178,7 @@ class $$Page extends React.Component {
     };
   }
 
-  componentWillUnmount() {
-    console.log('will unmount');
-  }
+  componentWillUnmount() {}
 
   getList(page) {
     this.setState({
@@ -199,7 +201,10 @@ class $$Page extends React.Component {
           count: res.data.count,
         });
       })
-      .catch((err) => console.error(err))
+      .catch((err) => {
+        Message.error('获取列表成功');
+        console.error(err);
+      })
       .finally(() => {
         this.setState({
           loading: false,
@@ -241,9 +246,12 @@ class $$Page extends React.Component {
       })
       .then((res) => res.json())
       .then((res) => {
-        console.log('del success');
+        Message.success('删除成功');
       })
-      .catch((err) => console.error(err))
+      .catch((err) => {
+        console.error(err);
+        Message.error('删除失败');
+      })
       .finally(() => {
         this.closeDeleteModal();
         this.getList(this.state.page);
@@ -295,8 +303,8 @@ class $$Page extends React.Component {
       })
       .then((res) => res.json())
       .then((res) => {
-        console.log('edit success');
         this.closeEditModal();
+        Message.success('修改成功');
       });
   }
 
@@ -333,7 +341,7 @@ class $$Page extends React.Component {
       })
       .then((res) => res.json())
       .then((res) => {
-        console.log('add success');
+        Message.success('新增成功');
         this.closeAddModal();
       });
   }
@@ -346,10 +354,18 @@ class $$Page extends React.Component {
     });
   }
 
+  onBatchDelete(e, { rowSelection }) {
+    const selected = rowSelection.selectedRowKeys;
+    if (!selected.length) {
+      Message.warning('未选择节点');
+      return;
+    }
+    console.log(selected);
+  }
+
   componentDidMount() {
     this._dataSourceEngine.reloadDataSource();
 
-    console.log('did mount');
     this.getList(this.state.page);
   }
 
